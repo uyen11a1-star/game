@@ -4,5 +4,11 @@
     "url": "https://nyra-chess.pages.dev/",
     "desc": "Đấu cờ vua với Nyra, AI tự làm chạy ngay trong trình duyệt",
     "tag": "cờ vua"
+  },
+  {
+    "title": "Cờ tướng",
+    "url": "games/co-tuong.html",
+    "desc": "Đấu với máy, có gợi ý và hướng dẫn cách đi cho người mới",
+    "tag": "cờ"
   }
 ]
