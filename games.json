@@ -1,0 +1,4 @@
+[
+  {"title": "Game mẫu 1", "url": "games/mau1.html", "desc": "Sửa/xóa dòng này, thêm game của mày vào đây", "tag": "demo"},
+  {"title": "Game mẫu 2", "url": "games/mau2.html", "desc": "Mỗi game 1 object, nhớ dấu phẩy giữa các dòng", "tag": "demo"}
+]

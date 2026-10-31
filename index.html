@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>game</title>
+<meta name="description" content="game - kho game miễn phí chơi ngay trên trình duyệt, không cần tải.">
+<meta property="og:title" content="game">
+<meta property="og:description" content="Kho game miễn phí chơi ngay trên trình duyệt.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#ece9ff;--ink:#1c1a3a;--muted:#5d5a85;--card:#fff;--accent:#ff5c39}
+*{box-sizing:border-box;margin:0}
+body{background:var(--bg);color:var(--ink);font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:500;min-height:100vh;padding:0 16px 48px}
+header{max-width:960px;margin:0 auto;padding:40px 0 24px}
+h1{font-size:clamp(72px,22vw,160px);font-weight:800;line-height:.9;letter-spacing:-.04em}
+header p{color:var(--muted);margin-top:12px}
+#q{width:100%;margin-top:20px;padding:14px 16px;font:inherit;font-size:18px;border:3px solid var(--ink);border-radius:14px;background:#fff;color:var(--ink)}
+#q:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+main{max-width:960px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:16px}
+a.g{display:flex;flex-direction:column;background:var(--card);border:3px solid var(--ink);border-radius:18px;overflow:hidden;color:inherit;text-decoration:none;box-shadow:5px 5px 0 var(--ink)}
+a.g:active{transform:translate(3px,3px);box-shadow:2px 2px 0 var(--ink)}
+a.g:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+.t{height:110px;display:grid;place-items:center;font-size:56px;font-weight:800;color:var(--ink);border-bottom:3px solid var(--ink)}
+.b{padding:12px 14px 14px}
+.b h2{font-size:19px;font-weight:800}
+.b p{font-size:14px;color:var(--muted);margin-top:4px}
+.b small{display:inline-block;margin-top:8px;font-size:12px;border:2px solid var(--ink);border-radius:99px;padding:1px 9px}
+#empty{max-width:960px;margin:24px auto;color:var(--muted)}
+</style>
+</head>
+<body>
+<header>
+  <h1>game</h1>
+  <p>Chơi ngay trên trình duyệt, không cần tải.</p>
+  <input id="q" type="search" placeholder="Tìm game..." aria-label="Tìm game" autocomplete="off">
+</header>
+<main id="list"></main>
+<p id="empty" hidden>Không có game nào khớp. Thử từ khóa khác.</p>
+<script>
+const COLORS=["#ffd166","#7ee0c3","#ff9eb5","#9ec5ff","#c4f06b","#ffb870"];
+const list=document.getElementById("list"),q=document.getElementById("q"),empty=document.getElementById("empty");
+let games=[];
+function render(){
+  const k=q.value.trim().toLowerCase();
+  const rs=games.filter(g=>(g.title+" "+(g.desc||"")+" "+(g.tag||"")).toLowerCase().includes(k));
+  list.textContent="";
+  rs.forEach((g,i)=>{
+    const a=document.createElement("a");a.className="g";a.href=g.url;
+    const t=document.createElement("div");t.className="t";t.style.background=COLORS[i%COLORS.length];t.textContent=(g.title||"?").trim().charAt(0).toUpperCase();
+    const b=document.createElement("div");b.className="b";
+    const h=document.createElement("h2");h.textContent=g.title;
+    const p=document.createElement("p");p.textContent=g.desc||"";
+    b.append(h,p);
+    if(g.tag){const s=document.createElement("small");s.textContent=g.tag;b.append(s)}
+    a.append(t,b);list.append(a);
+  });
+  empty.hidden=rs.length>0;
+}
+fetch("games.json").then(r=>r.json()).then(d=>{games=d;render()}).catch(()=>{empty.hidden=false;empty.textContent="Không tải được games.json."});
+q.addEventListener("input",render);
+</script>
+</body>
+</html>
