@@ -58,7 +58,7 @@ function render(){
   });
   empty.hidden=rs.length>0;
 }
-fetch("games.json").then(r=>r.json()).then(d=>{games=d;render()}).catch(()=>{empty.hidden=false;empty.textContent="Không tải được games.json."});
+fetch("games.json?t="+Date.now()).then(r=>r.json()).then(d=>{games=d;render()}).catch(()=>{empty.hidden=false;empty.textContent="Không tải được games.json."});
 q.addEventListener("input",render);
 </script>
 </body>
